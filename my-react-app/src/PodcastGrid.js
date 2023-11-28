@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Fuse from 'fuse.js';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function Header(props) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,8 +42,8 @@ export function PodcastGrid(props) {
   const [selectedSeason, setSelectedSeason] = useState(1);
   const [sortOption, setSortOption] = useState('');
   const [originalData, setOriginalData] = useState([]);
-  const [selectedShow, setSelectedShow] = useState(null); // New state to track the selected show
-  const [selectedSeasonData, setSelectedSeasonData] = useState([]); // New state to track episodes for a specific season
+  const [selectedShow, setSelectedShow] = useState(null);
+  const [selectedSeasonData, setSelectedSeasonData] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -82,11 +85,19 @@ export function PodcastGrid(props) {
   }, []);
 
   useEffect(() => {
-    // Update selected season data when the selected season or show changes
     if (selectedShow && selectedShow.seasons[selectedSeason - 1]) {
       setSelectedSeasonData(selectedShow.seasons[selectedSeason - 1].episodes);
     }
   }, [selectedSeason, selectedShow]);
+
+  const carouselSettings = {
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed: 3000,
+  };
 
   const sortData = () => {
     let sortedData;
@@ -150,12 +161,11 @@ export function PodcastGrid(props) {
 
   const handleShowClick = (show) => {
     setSelectedShow(show);
-    setSelectedSeason(1); // Reset selected season when a new show is selected
+    setSelectedSeason(1);
   };
 
   const handleEpisodePlay = (episodeId) => {
     console.log(`Playing episode with ID: ${episodeId}`);
-    // Add your logic to play the episode
   };
 
   return (
@@ -164,8 +174,15 @@ export function PodcastGrid(props) {
         <p>Loading...</p>
       ) : (
         <>
+          <Slider {...carouselSettings}>
+            {rowData.map((row, index) => (
+              <div key={`carousel-${index}`}>
+                <img src={row.image} alt={row.title} style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'cover' }} />
+              </div>
+            ))}
+          </Slider>
+
           {selectedShow ? (
-            // Show season-specific view when a show is selected
             <>
               <Header onSearch={handleSearch} onSortOptionChange={handleSortOptionChange} onBack={handleGoBack} />
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -192,7 +209,6 @@ export function PodcastGrid(props) {
               </div>
             </>
           ) : (
-            // Show the main grid view with all shows
             <>
               <Header onSearch={handleSearch} onSortOptionChange={handleSortOptionChange} onBack={handleGoBack} />
               <button onClick={sortData}>Sort</button>
@@ -226,6 +242,8 @@ export function PodcastGrid(props) {
     </div>
   );
 }
+
+
 
 
 
