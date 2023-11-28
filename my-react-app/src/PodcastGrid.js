@@ -14,7 +14,7 @@ function Header(props) {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+    <div style={{ display: 'block', justifyContent: 'space-between', alignItems: 'center', marginBottom: '50px' }}>
       <button onClick={props.onBack}>Back</button>
       <h1>The Hot Shows</h1>
       <form onSubmit={handleSearchSubmit}>
@@ -159,7 +159,7 @@ export function PodcastGrid(props) {
   };
 
   return (
-    <div style={{ height: props.height, width: props.width, backgroundColor: 'black', color: 'white', position: 'relative' }}>
+    <div style={{ height: props.height, width: props.width, backgroundColor: 'white', color: 'black', position: 'flex' }}>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
