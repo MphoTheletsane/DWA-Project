@@ -16,7 +16,7 @@ function Header(props) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
       <button onClick={props.onBack}>Back</button>
-      <h1>The Film Club</h1>
+      <h1>The Hot Shows</h1>
       <form onSubmit={handleSearchSubmit}>
         <input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search..." />
         <button type="submit">Search</button>
